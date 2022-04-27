@@ -1,4 +1,6 @@
-final int GAME_START = 0, GAME_RUN = 1, GAME_OVER = 2;
+final int GAME_START = 0;
+final int GAME_RUN = 1;
+final int GAME_OVER = 2;
 int gameState = 0;
 
 final int GRASS_HEIGHT = 15;
@@ -7,17 +9,21 @@ final int START_BUTTON_H = 60;
 final int START_BUTTON_X = 248;
 final int START_BUTTON_Y = 360;
 
-PImage title, gameover, startNormal, startHovered, restartNormal, restartHovered;
-PImage bg, soil8x24;
+PImage bg;
+PImage title;
+PImage gameover;
+PImage startNormal;
+PImage startHovered;
+PImage restartNormal;
+PImage restartHovered;
+PImage soil8x24;
 
-// For debug function; DO NOT edit or remove this!
 int playerHealth = 0;
 float cameraOffsetY = 0;
 boolean debugMode = false;
 
 void setup() {
 	size(640, 480, P2D);
-	// Enter your setup code here (please put loadImage() here or your game will lag like crazy)
 	bg = loadImage("img/bg.jpg");
 	title = loadImage("img/title.jpg");
 	gameover = loadImage("img/gameover.jpg");
@@ -29,22 +35,16 @@ void setup() {
 }
 
 void draw() {
-    /* ------ Debug Function ------ 
-
-      Please DO NOT edit the code here.
-      It's for reviewing other requirements when you fail to complete the camera moving requirement.
-
-    */
+    
     if (debugMode) {
       pushMatrix();
       translate(0, cameraOffsetY);
     }
-    /* ------ End of Debug Function ------ */
 
     
 	switch (gameState) {
 
-		case GAME_START: // Start Screen
+		case GAME_START: 
 		image(title, 0, 0);
 
 		if(START_BUTTON_X + START_BUTTON_W > mouseX
@@ -65,32 +65,26 @@ void draw() {
 		}
 		break;
 
-		case GAME_RUN: // In-Game
+		case GAME_RUN: 
 
-		// Background
+		
 		image(bg, 0, 0);
 
-		// Sun
 	    stroke(255,255,0);
 	    strokeWeight(5);
 	    fill(253,184,19);
 	    ellipse(590,50,120,120);
 
-		// Grass
 		fill(124, 204, 25);
 		noStroke();
 		rect(0, 160 - GRASS_HEIGHT, width, GRASS_HEIGHT);
 
-		// Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
 		image(soil8x24, 0, 160);
 
-		// Player
-
-		// Health UI
 
 		break;
 
-		case GAME_OVER: // Gameover Screen
+		case GAME_OVER:
 		image(gameover, 0, 0);
 		
 		if(START_BUTTON_X + START_BUTTON_W > mouseX
@@ -102,7 +96,6 @@ void draw() {
 			if(mousePressed){
 				gameState = GAME_RUN;
 				mousePressed = false;
-				// Remember to initialize the game here!
 			}
 		}else{
 
@@ -113,36 +106,35 @@ void draw() {
 		
 	}
 
-    // DO NOT REMOVE OR EDIT THE FOLLOWING 3 LINES
     if (debugMode) {
         popMatrix();
     }
 }
 
 void keyPressed(){
-	// Add your moving input code here
-
-	// DO NOT REMOVE OR EDIT THE FOLLOWING SWITCH/CASES
     switch(key){
       case 'w':
       debugMode = true;
-      cameraOffsetY += 25;
+      cameraOffsetY = cameraOffsetY + 25;
       break;
-
+      
       case 's':
       debugMode = true;
-      cameraOffsetY -= 25;
+      cameraOffsetY = cameraOffsetY - 25;
       break;
 
       case 'a':
-      if(playerHealth > 0) playerHealth --;
+      if(playerHealth > 0)
+      {
+        playerHealth --;
+      }  
       break;
 
       case 'd':
-      if(playerHealth < 5) playerHealth ++;
+      if(playerHealth < 5) 
+      {
+        playerHealth ++;
+      }
       break;
     }
-}
-
-void keyReleased(){
 }
